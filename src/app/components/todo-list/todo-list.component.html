@@ -1,0 +1,26 @@
+<div class="mt-4 text-xl"           
+     (mouseenter)="selected = todo.id; newTitle = todo.title"
+     (mouseleave)="selected = -1; todoService.updateTask(todo.id, newTitle)"
+     >
+     <span (click)="todoService.completeTask(todo.id)"
+           class="hover: cursor-pointer"
+           [ngClass]="{'mx-1': !todo.completed}"
+     >{{ todo.completed? "&#x2611;" : "&#9744;"}}
+     </span>
+    <span *ngIf="selected != todo.id">
+    {{ todo.title }}
+    </span>
+    <span *ngIf="selected === todo.id">        
+        <input type="text" 
+               [(ngModel)]="newTitle"
+               class="border-none outline-0"
+        >
+    </span>
+    <span 
+        *ngIf="selected === todo.id"
+        class="hover: cursor-pointer"
+        (click)="todoService.removeTask(todo.id)"
+    > 
+        X
+    </span>
+</div>
