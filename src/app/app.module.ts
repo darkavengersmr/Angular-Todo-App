@@ -8,12 +8,16 @@ import { TodoListComponent } from './components/todo-list/todo-list.componet';
 import { TodoAddModalComponent } from './components/modal/todo-add-modal/todo-add-modal.component';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TodoSearchComponent } from './components/todo-search/todo-search.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
-    TodoAddModalComponent
+    TodoAddModalComponent,
+    TodoSearchComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

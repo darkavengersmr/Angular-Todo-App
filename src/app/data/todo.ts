@@ -17,6 +17,18 @@ export const todos: ITodo[] = [
         userId: 1,
         id: 3,
         title: "Make Todo App",
-        completed: false
+        completed: true
+    },
+    {
+        userId: 1,
+        id: 4,
+        title: "Add search field",
+        completed: true
+    },
+    {
+        userId: 1,
+        id: 5,
+        title: "Add Drad-and-Drop feature",
+        completed: true
     },
 ]

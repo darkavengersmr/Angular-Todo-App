@@ -1,26 +1,32 @@
-<div class="mt-4 text-xl"           
-     (mouseenter)="selected = todo.id; newTitle = todo.title"
-     (mouseleave)="selected = -1; todoService.updateTask(todo.id, newTitle)"
+<div class="mt-4 text-xl" 
+     (click)="startEdit(todo)"
+     (mouseleave)="updateLastEdit(todo, newTitle); editIdOutput.emit(-1)"
+     (mouseenter)="editIdOutput.emit(todo.id); newTitle = todo.title"         
      >
      <span (click)="todoService.completeTask(todo.id)"
            class="hover: cursor-pointer"
            [ngClass]="{'mx-1': !todo.completed}"
      >{{ todo.completed? "&#x2611;" : "&#9744;"}}
      </span>
-    <span *ngIf="selected != todo.id">
+    <span *ngIf="editIdInput != todo.id"
+          class="w-[500px]"
+          (dragover)="dragOver(todo.id)"
+    >
     {{ todo.title }}
     </span>
-    <span *ngIf="selected === todo.id">        
-        <input type="text" 
+    <span *ngIf="editIdInput === todo.id">
+        <input type="text"
                [(ngModel)]="newTitle"
-               class="border-none outline-0"
+               class="border-none outline-0 w-[500px]"
+               draggable="true"
+               (dragstart)="dragStart(todo.id);"
         >
     </span>
     <span 
-        *ngIf="selected === todo.id"
+        *ngIf="editIdInput === todo.id"
         class="hover: cursor-pointer"
         (click)="todoService.removeTask(todo.id)"
     > 
-        X
+        {{'&#128465;'}}
     </span>
 </div>

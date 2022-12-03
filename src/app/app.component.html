@@ -5,9 +5,16 @@
 
   <img *ngIf="todoService.loading" class="mx-auto" src="assets/spinner.gif">
   <div *ngIf="!todoService.loading">
-    <app-todo-list *ngFor="let todo of todoService.todos; let i = index" [todo]="todo"></app-todo-list>
+    <app-todo-list *ngFor="let todo of todoService.todos | search:search; let i = index" 
+                   [todo]="todo" 
+                   (dragIdOutput)="dragId = $event"
+                   [dragIdInput]="dragId"
+                   (editIdOutput)="editId = $event"
+                   [editIdInput]="editId"
+    ></app-todo-list>    
   </div>
   
+  <app-todo-search (searchString)="search = $event"></app-todo-search>
   <app-todo-add-modal [visible]="false"></app-todo-add-modal>
 
 </div>

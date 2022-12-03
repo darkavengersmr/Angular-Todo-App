@@ -15,5 +15,7 @@ export class AppComponent implements OnInit{
   }
 
   title = 'angular-todo'
-
+  search = ''
+  dragId = -1
+  editId = -1
 }
