@@ -18,6 +18,8 @@ export class TodoListComponent {
 
     lastEdit: ITodo = {id: -1, title: "", completed: false} as ITodo    
 
+    lastXPos: number = 0
+
     updateLastEdit(todo: ITodo, newTitle: string) {
         if (newTitle.length && todo.title !== newTitle) {
             this.lastEdit = {...todo, title: newTitle}                       
@@ -35,11 +37,16 @@ export class TodoListComponent {
 
     constructor(public todoService: TodoListService) {}
 
-    dragStart(id: number) {
-        this.dragIdOutput.emit(id)                
+    dragStart(id: number, event: DragEvent) {
+        this.dragIdOutput.emit(id)
+        this.lastXPos = event.x
+    }
+
+    dragEnd(id: number, event: any) {
+        event.x - this.lastXPos > 0 ? this.todoService.setLevel(id, 2) : this.todoService.setLevel(id, 1)         
     }
 
     dragOver(id: number) {
-        this.todoService.swapTask(id, this.dragIdInput)        
+        if (id !== this.dragIdInput) this.todoService.swapTask(id, this.dragIdInput)        
     }
 }

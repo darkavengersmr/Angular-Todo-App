@@ -23,12 +23,28 @@ export const todos: ITodo[] = [
         userId: 1,
         id: 4,
         title: "Add search field",
-        completed: true
+        completed: true,
+        level: 2
     },
     {
         userId: 1,
         id: 5,
         title: "Add Drad-and-Drop feature",
-        completed: true
+        completed: true,
+        level: 2
+    },
+    {
+        userId: 1,
+        id: 6,
+        title: "Add 2-level lists",
+        completed: true,
+        level: 2
+    },
+    {
+        userId: 1,
+        id: 7,
+        title: "Add undo/redo features",
+        completed: true,
+        level: 2
     },
 ]

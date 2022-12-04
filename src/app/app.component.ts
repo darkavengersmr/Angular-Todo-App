@@ -11,7 +11,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.todoService.getAll()
+    this.todoService.downloadAll()
   }
 
   title = 'angular-todo'
