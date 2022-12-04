@@ -18,7 +18,7 @@
     <span *ngIf="editIdInput === todo.id">
         <input type="text"
                [(ngModel)]="newTitle"
-               class="border-none outline-0 w-[500px]"               
+               class="border-none outline-0 w-[500px] bg-[#112]"               
                [ngClass]="{'w-[460px]': todo.level === 2 }"
                draggable="true"
                (dragstart)="dragStart(todo.id, $event);"

@@ -28,9 +28,9 @@ export class TodoListService {
 
     downloadAll() {
         this.loading = true        
-        const newTodos = this.http.get<ITodo[]>('https2://jsonplaceholder.typicode.com/todos?_limit=5')
+        const newTodos = this.http.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=5')
         .pipe(
-            delay(1000),
+            delay(2000),
             catchError(this.errorGetHandler),
             tap(() => {this.loading = false})
         )
@@ -70,7 +70,8 @@ export class TodoListService {
 
         this.loading = true
         const newTodos = this.http.post<ITodo>('https://jsonplaceholder.typicode.com/todos', newTask)
-            .pipe(                            
+            .pipe(   
+                delay(2000),                         
                 catchError(this.errorPostHandler),   
                 tap(() => {this.loading = false})
             )

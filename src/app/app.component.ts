@@ -3,7 +3,7 @@ import { TodoListService } from './services/todo.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',  
+  templateUrl: './app.component.html',
 })
 
 export class AppComponent implements OnInit{

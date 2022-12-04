@@ -1,17 +1,17 @@
 <div *ngIf="visible">
     <div class="bg-black/50 fixed top-0 bottom-0 left-0 right-0" (click)="visible = false"></div>
-    <div class="w-[600px] absolute top-[200px] bg-white h-[220px]" >
+    <div class="w-[600px] absolute top-[200px] bg-[#112] border-blue-900 border rounded-md h-[220px]" >
         <form [formGroup]="form" (submit)="submit()">
-            <h1 class="my-5 text-center text-xl">Add new task</h1>
+            <h1 class="mt-8 mb-3 text-center text-xl">Add new task</h1>
             <input 
                 placeholder="New task..." 
-                class="border hover:border-black w-[520px] mx-10 my-2 text-lg h-10 px-2" 
+                class="border hover:border-blue-400 bg-black w-[520px] mx-10 my-2 text-lg h-10 px-2 rounded-md border-blue-900" 
                 type="text"
                 formControlName="newTask"
                 (blur)="errorsVisible = true"            
             >                
             <button 
-                class="px-2 py-2 border bg-blue-200 hover:bg-blue-400 my-4 mr-10 float-right text-lg disabled:bg-blue-200"                
+                class="px-2 py-2 border bg-blue-200 rounded-md hover:bg-blue-400 my-4 mr-10 float-right text-lg disabled:bg-blue-200 text-black"                
                 [disabled]="form.controls.newTask.errors"
                 type="submit"                                            
                 >Add task
@@ -22,7 +22,7 @@
 </div>
 <div *ngIf="!visible">
     <div 
-        class="bg-blue-200 hover:bg-blue-400 h-16 w-16 text-2xl rounded-full text-center py-3 fixed right-10 bottom-10"
+        class="bg-blue-200 hover:bg-blue-400 h-16 w-16 text-2xl rounded-full text-center py-3 fixed right-10 bottom-10 text-black"
         (click)="visible = true; form.reset(); errorsVisible = false"        
         >+
     </div>

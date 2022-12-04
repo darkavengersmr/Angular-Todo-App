@@ -1,11 +1,11 @@
-<div class="mx-4 my-2 text-2xl h-10 px-2 fixed left-[210px] bottom-10">
+<div class="mx-4 my-2 text-2xl h-10 px-2 fixed left-[210px] bottom-10 text-blue-400">
     <span class="ml-4 hover: cursor-pointer" (click)="todoService.undo()"
-          [ngClass]="{'text-gray-200': !todoService.undoAvailable()}"
+          [ngClass]="{'text-blue-900': !todoService.undoAvailable()}"
     >
         &#11148;
     </span>
     <span class="ml-2 hover: cursor-pointer" (click)="todoService.redo()"
-          [ngClass]="{'text-gray-200': !todoService.redoAvailable()}"
+          [ngClass]="{'text-blue-900': !todoService.redoAvailable()}"
     >
         &#11150;
     </span>

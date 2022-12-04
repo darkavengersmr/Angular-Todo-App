@@ -1,9 +1,9 @@
-<div class="max-w-xl container mx-auto">
+<div class="max-w-xl container mx-auto my-8 text-white">
   <h1 class="text-2xl font-bold text-center mt-4">
     Todo App
   </h1>
 
-  <img *ngIf="todoService.loading" class="mx-auto" src="assets/spinner.gif">
+  <img *ngIf="todoService.loading" class="mx-auto mt-[200px]" src="assets/spinner.gif">
   <div *ngIf="!todoService.loading">
     <app-todo-list *ngFor="let todo of todoService.getAll() | search:search; let i = index" 
                    [todo]="todo" 
