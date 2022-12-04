@@ -10,12 +10,13 @@ import { catchError, delay, throwError, tap } from "rxjs";
 export class TodoListService {
     constructor(private http: HttpClient) {
     }
-
-    todos: ITodo[] = []
+    
+    private todosHistory: ITodo[][] = [[]]
+    private todosHistoryActual: number = 0
     loading = false    
 
-    private errorGetHandler = (error: HttpErrorResponse) => {        
-        this.todos = localMockData
+    private errorGetHandler = (error: HttpErrorResponse) => {                
+        this.todosHistory = [localMockData]
         this.loading = false
         return throwError(() => error.message)
     }
@@ -25,28 +26,43 @@ export class TodoListService {
         return throwError(() => error.message)
     }
 
-    getAll() {
-        this.loading = true
+    downloadAll() {
+        this.loading = true        
         const newTodos = this.http.get<ITodo[]>('https2://jsonplaceholder.typicode.com/todos?_limit=5')
-            .pipe(
-                delay(1000),
-                catchError(this.errorGetHandler),
-                tap(() => {this.loading = false})
-            )
-        newTodos.subscribe(data => this.todos = data.filter((el) => el.userId === 1))
+        .pipe(
+            delay(1000),
+            catchError(this.errorGetHandler),
+            tap(() => {this.loading = false})
+        )
+        newTodos.subscribe(data => this.todosHistory = [data.filter((el) => el.userId === 1)])
+    }
+
+    getAll() {
+        return this.todosHistory[this.todosHistoryActual]
     }
 
     get(id: number): ITodo {
-        return this.todos.filter(todo => todo.id === id)[0]
+        return this.todosHistory[this.todosHistoryActual].filter(todo => todo.id === id)[0]
+    }
+
+    cropTodoHistory() {
+        if (this.todosHistoryActual + 1 < this.todosHistory.length) {
+            this.todosHistory.slice(0, this.todosHistoryActual)
+            this.todosHistoryActual = this.todosHistory.length - 1
+        }        
     }
 
     completeTask(id: number) {
-        this.todos = this.todos.map(el => el.id === id ? {...el, completed: !el.completed} : el)
-    }
+        this.cropTodoHistory()
+        this.todosHistory.push(this.todosHistory[this.todosHistoryActual].map(el => el.id === id ? {...el, completed: !el.completed} : el))
+        this.todosHistoryActual++
+    } 
 
     addTask(task: string) {
+        this.cropTodoHistory()
+
         const newTask = {
-            id: this.todos.length + 1,            
+            id: this.todosHistory[this.todosHistoryActual].length + 1,            
             userId: 0,
             title: task,
             completed: false
@@ -58,23 +74,57 @@ export class TodoListService {
                 catchError(this.errorPostHandler),   
                 tap(() => {this.loading = false})
             )
-        newTodos.subscribe(data => {this.todos.push(data); console.log(data)})        
+        newTodos.subscribe(data => {
+            this.todosHistory.push([...this.todosHistory[this.todosHistoryActual], data])
+            this.todosHistoryActual++
+        })        
     }
 
     removeTask(id: number) {
-        this.todos = this.todos.filter(task => task.id !== id)
+        this.cropTodoHistory()
+        this.todosHistory.push(this.todosHistory[this.todosHistoryActual].filter(task => task.id !== id))
+        this.todosHistoryActual++
     }
 
-    updateTask(id: number, title: string) {
-        if (title.length) this.todos = this.todos.map(task => task.id === id ? {...task, title: title} : task )
+    updateTask(id: number, title: string) {        
+        if (title.length) {
+            this.cropTodoHistory()
+            this.todosHistory.push(this.todosHistory[this.todosHistoryActual].map(task => task.id === id ? {...task, title: title} : task ))
+            this.todosHistoryActual++
+        }
     }
 
-    swapTask(id1: number, id2: number) {
-        const idx1 = this.todos.indexOf(this.get(id1))
-        const idx2 = this.todos.indexOf(this.get(id2))
-        const tmp = this.get(id1)        
-        this.todos[idx1] = this.get(id2)
-        this.todos[idx2] = tmp
-        this.todos = [...this.todos]
+    swapTask(id1: number, id2: number) {        
+        this.cropTodoHistory()
+        const idx1 = this.todosHistory[this.todosHistoryActual].indexOf(this.get(id1))
+        const idx2 = this.todosHistory[this.todosHistoryActual].indexOf(this.get(id2))
+        const tmp = this.get(id1)
+        const newTodos = [...this.todosHistory[this.todosHistoryActual]]  
+        newTodos[idx1] = this.get(id2)
+        newTodos[idx2] = tmp
+        this.todosHistory.push(newTodos)
+        this.todosHistoryActual++
+    }
+
+    setLevel(id: number, level: number) {
+        this.cropTodoHistory()
+        this.todosHistory.push(this.todosHistory[this.todosHistoryActual].map(todo => todo.id === id ? {...todo, level} : todo))
+        this.todosHistoryActual++
+    }
+
+    undo() {
+        if (this.undoAvailable()) this.todosHistoryActual--
+    }
+
+    redo() {
+        if (this.redoAvailable()) this.todosHistoryActual++
+    }
+
+    undoAvailable() {
+        return this.todosHistoryActual > 0
+    }
+
+    redoAvailable() {
+        return this.todosHistoryActual + 1 < this.todosHistory.length
     }
 }
