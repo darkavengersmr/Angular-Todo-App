@@ -1,0 +1,12 @@
+<div class="ml-2 mt-4 text-xl"      
+     (mouseleave)="addTodo()"          
+     >
+     <span class="text-gray-400 text-xl mr-1">+</span>
+    <input type="text"
+            placeholder="Add new task..."
+            [(ngModel)]="newTitle"
+            class="border-none outline-0 w-[500px] bg-[#112] ml-1"
+            (keyup.enter)="addTodo()"
+            autofocus                                      
+    >    
+</div>

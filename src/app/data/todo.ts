@@ -3,6 +3,12 @@ import { ITodo } from "../models/todo";
 export const todos: ITodo[] = [
     {
         userId: 1,
+        id: 0,
+        title: "My todo list",
+        completed: false
+    },
+    {
+        userId: 1,
         id: 1,
         title: "Learn Angular",
         completed: false
@@ -36,7 +42,7 @@ export const todos: ITodo[] = [
     {
         userId: 1,
         id: 6,
-        title: "Add 2-level lists",
+        title: "Add 2-level lists with Drad-and-Drop",
         completed: true,
         level: 2
     },

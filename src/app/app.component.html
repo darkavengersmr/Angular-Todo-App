@@ -1,7 +1,5 @@
-<div class="max-w-xl container mx-auto my-8 text-white">
-  <h1 class="text-2xl font-bold text-center mt-4">
-    Todo App
-  </h1>
+<div class="max-w-xl container mx-auto mt-8 mb-32 text-white">
+  <app-todo-list-title></app-todo-list-title>
 
   <img *ngIf="todoService.loading" class="mx-auto mt-[200px]" src="assets/spinner.gif">
   <div *ngIf="!todoService.loading">
@@ -11,7 +9,8 @@
                    [dragIdInput]="dragId"
                    (editIdOutput)="editId = $event"
                    [editIdInput]="editId"
-    ></app-todo-list>    
+    ></app-todo-list>
+    <app-todo-add-in-list></app-todo-add-in-list>    
   </div>
   
   <app-todo-search (searchString)="search = $event"></app-todo-search>

@@ -49,4 +49,14 @@ export class TodoListComponent {
     dragOver(id: number) {
         if (id !== this.dragIdInput) this.todoService.swapTask(id, this.dragIdInput)        
     }
+
+    insertTask(position: number | null, title: string, todo: ITodo) {
+        if (position) {
+            this.newTitle = title.slice(0, position)
+            this.todoService.updateTask(todo.id, this.newTitle)
+            this.todoService.addTask(title.slice(position), todo.id, todo.level ? todo.level : 1)
+        }
+        
+    }
+
 }

@@ -11,6 +11,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TodoSearchComponent } from './components/todo-search/todo-search.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { UndoRedoComponent } from './components/undo-redo/undo-redo.component';
+import { TodoListTitleComponent } from './components/todo-list-title/todo-list-title.component';
+import { TodoAddInListComponent } from './components/todo-add-in-list/todo-add-in-list.component';
+import { FocusDirective } from './directives/focus.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { UndoRedoComponent } from './components/undo-redo/undo-redo.component';
     TodoAddModalComponent,
     TodoSearchComponent,
     SearchPipe,
-    UndoRedoComponent
+    UndoRedoComponent,
+    TodoListTitleComponent,
+    TodoAddInListComponent,
+    FocusDirective
   ],
   imports: [
     BrowserModule,

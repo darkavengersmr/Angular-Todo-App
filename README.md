@@ -1,1 +1,3 @@
-# Angular-Todo-App
+# Angular Todo App
+
+![alt text](screenshots/screenshot.gif "AngularTodoApp")

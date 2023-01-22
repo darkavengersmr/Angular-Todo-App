@@ -1,0 +1,6 @@
+<input type="text"
+               [value]="todoService.get(0).title"
+               (mouseleave)="updateTitle(title.value)"
+               #title
+               class="border-none outline-0 w-[500px] bg-[#112] text-center text-2xl"                              
+>

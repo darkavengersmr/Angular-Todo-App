@@ -10,8 +10,15 @@ import { catchError, delay, throwError, tap } from "rxjs";
 export class TodoListService {
     constructor(private http: HttpClient) {
     }
-    
-    private todosHistory: ITodo[][] = [[]]
+
+    private defaultTitle: ITodo = {
+        userId: 1,
+        id: 0,
+        title: "My todo list",
+        completed: false
+    }
+
+    private todosHistory: ITodo[][] = [[this.defaultTitle]]
     private todosHistoryActual: number = 0
     loading = false    
 
@@ -28,17 +35,17 @@ export class TodoListService {
 
     downloadAll() {
         this.loading = true        
-        const newTodos = this.http.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=5')
+        const newTodos = this.http.get<ITodo[]>('https2://jsonplaceholder.typicode.com/todos?_limit=5')
         .pipe(
             delay(2000),
             catchError(this.errorGetHandler),
             tap(() => {this.loading = false})
         )
-        newTodos.subscribe(data => this.todosHistory = [data.filter((el) => el.userId === 1)])
+        newTodos.subscribe(data => this.todosHistory = [[this.defaultTitle, ...data.filter((el) => el.userId === 1)]])
     }
 
     getAll() {
-        return this.todosHistory[this.todosHistoryActual]
+        return this.todosHistory[this.todosHistoryActual].slice(1)
     }
 
     get(id: number): ITodo {
@@ -58,27 +65,30 @@ export class TodoListService {
         this.todosHistoryActual++
     } 
 
-    addTask(task: string) {
+    addTask(task: string, position: number = this.todosHistory[this.todosHistoryActual].length-1, level: number = 1) {
         this.cropTodoHistory()
 
         const newTask = {
             id: this.todosHistory[this.todosHistoryActual].length + 1,            
-            userId: 0,
+            userId: 1,
             title: task,
-            completed: false
+            completed: false,
+            level
             }
+        const newState = [...this.todosHistory[this.todosHistoryActual].slice(0,position+1), newTask, ...this.todosHistory[this.todosHistoryActual].slice(position+1)]        
+        this.todosHistory.push([...newState])        
+        this.todosHistoryActual++
 
-        this.loading = true
+        /*
         const newTodos = this.http.post<ITodo>('https://jsonplaceholder.typicode.com/todos', newTask)
-            .pipe(   
-                delay(2000),                         
-                catchError(this.errorPostHandler),   
-                tap(() => {this.loading = false})
+            .pipe(                          
+                catchError(this.errorPostHandler),                   
             )
         newTodos.subscribe(data => {
-            this.todosHistory.push([...this.todosHistory[this.todosHistoryActual], data])
+            this.todosHistory.push([...this.todosHistory[this.todosHistoryActual], data])            
             this.todosHistoryActual++
-        })        
+        })
+        */        
     }
 
     removeTask(id: number) {

@@ -4,11 +4,21 @@
      (mouseenter)="editIdOutput.emit(todo.id); newTitle = todo.title"         
      [ngClass]="{'ml-10': todo.level === 2 }"
      >
-     <span (click)="todoService.completeTask(todo.id)"
-           class="hover: cursor-pointer"
-           [ngClass]="{'mx-1': !todo.completed}"           
-     >{{ todo.completed? "&#x2611;" : "&#9744;"}}
-     </span>
+     
+
+     <span 
+        *ngIf="editIdInput === todo.id"
+        class="-ml-6 text-xl"                
+    > 
+        {{ "&#10021;"}}
+    </span>
+
+    <span (click)="todoService.completeTask(todo.id)"
+          class="hover: cursor-pointer"
+    [ngClass]="{'mx-1': !todo.completed}"           
+    >{{ todo.completed? "&#x2611;" : "&#9744;"}}
+    </span>
+
     <span *ngIf="editIdInput != todo.id"
           class="w-[500px]"
           (dragover)="dragOver(todo.id)"
@@ -21,8 +31,10 @@
                class="border-none outline-0 w-[500px] bg-[#112]"               
                [ngClass]="{'w-[460px]': todo.level === 2 }"
                draggable="true"
-               (dragstart)="dragStart(todo.id, $event);"
-               (dragend)="dragEnd(todo.id, $event);"
+               #title
+               (dragstart)="dragStart(todo.id, $event)"
+               (dragend)="dragEnd(todo.id, $event)"
+               (keyup.enter)="insertTask(title.selectionStart, title.value, todo)"
         >
     </span>
     <span 
